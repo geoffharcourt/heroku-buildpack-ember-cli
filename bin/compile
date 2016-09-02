@@ -87,9 +87,12 @@ else
   status "Using default npm version: `npm --version`"
 fi
 
-status "Downloading and installing nginx"
-nginx_url=${NGINX_URL:-https://s3.amazonaws.com/devmynd-github/heroku-nginx-1.6.0.tar.gz}
-curl $nginx_url -s -o - | tar xzf - -C $build_dir/vendor
+status "Setting up Openresty"
+cp $bp_dir/vendor/openresty-1.9.15.1-heroku-build.tar.gz $build_dir/vendor
+cd $build_dir/vendor
+tar xzf openresty-1.9.15.1-heroku-build.tar.gz
+
+cd $build_dir
 
 status "Adding boot script"
 cp $bp_dir/bin/boot.sh $build_dir
