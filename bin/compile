@@ -227,6 +227,12 @@ fi
 status "Building Ember CLI application $build_env distribution"
 $build_dir/node_modules/ember-cli/bin/ember build --environment $build_env | indent
 
+# For pages that rely on CSS but don't track fingerprinting
+status "Making non-fingerprinted copies of assets for distribution"
+for file in $build_dir/dist/assets/*.css; do
+  cp -a $file ${file%%-*}.css
+done
+
 if test -f $build_dir/hooks/after_hook.sh; then
   status "After hook detected. Running..."
   source $build_dir/hooks/after_hook.sh
